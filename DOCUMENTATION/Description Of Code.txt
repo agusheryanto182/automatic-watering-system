@@ -1,0 +1,47 @@
+#include <LiquidCrystal.h>: Ini adalah directive preprocessor yang digunakan untuk menyertakan pustaka atau library LiquidCrystal. Pustaka ini diperlukan untuk mengendalikan LCD.
+
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8);: Ini adalah inisialisasi objek dari kelas LiquidCrystal dengan nama lcd. Parameter-parameter yang diberikan (13, 12, 11, 10, 9, 8) adalah pin Arduino yang terhubung dengan LCD. Urutan parameter tersebut adalah RS, E, D4, D5, D6, dan D7.
+
+int SensorPin = A5;: Ini adalah deklarasi variabel SensorPin dengan tipe data int dan nilai A5. Variabel ini digunakan untuk menyimpan nomor pin analog yang terhubung dengan sensor kelembapan tanah.
+
+int data;: Ini adalah deklarasi variabel data dengan tipe data int. Variabel ini digunakan untuk menyimpan nilai pembacaan sensor kelembapan.
+
+int fanPin = 4;: Ini adalah deklarasi variabel fanPin dengan tipe data int dan nilai 4. Variabel ini digunakan untuk menyimpan nomor pin yang terhubung dengan fan DC.
+
+int motorPin = 5;: Ini adalah deklarasi variabel motorPin dengan tipe data int dan nilai 5. Variabel ini digunakan untuk menyimpan nomor pin yang terhubung dengan motor DC.
+
+void setup() { ... }: Ini adalah blok kode untuk fungsi setup(). Fungsi ini dieksekusi sekali saat Arduino pertama kali dinyalakan. Pada bagian ini, kita mengatur konfigurasi awal, seperti inisialisasi LCD, penempatan teks di LCD, dan pengaturan mode pin sebagai input atau output.
+
+void loop() { ... }: Ini adalah blok kode untuk fungsi loop(). Fungsi ini dieksekusi secara berulang selama Arduino berjalan. Pada bagian ini, kita melakukan pembacaan sensor, melakukan konversi pembacaan menjadi nilai kelembaban, menampilkan nilai kelembaban di LCD, dan mengendalikan fan dan motor berdasarkan nilai kelembaban.
+
+lcd.begin(20, 4);: Ini adalah pemanggilan metode begin() pada objek lcd. Metode ini digunakan untuk menginisialisasi LCD dengan menentukan jumlah kolom dan baris yang digunakan.
+
+lcd.setCursor(0, 1);: Ini adalah pemanggilan metode setCursor() pada objek lcd. Metode ini digunakan untuk mengatur posisi kursor di LCD. Parameter pertama adalah posisi kolom (mulai dari 0), dan parameter kedua adalah posisi baris (mulai dari 0).
+
+lcd.print("-------SENSOR-------");: Ini adalah pemanggilan metode print() pada objek lcd. Metode ini digunakan untuk menampilkan teks yang diberikan di posisi kursor saat ini di LCD.
+
+pinMode(fanPin, OUTPUT);: Ini adalah pemanggilan fungsi pinMode() yang digunakan untuk mengatur mode pin fanPin menjadi OUTPUT. Dalam hal ini, pin tersebut akan digunakan untuk mengontrol fan DC.
+
+pinMode(motorPin, OUTPUT);: Ini adalah pemanggilan fungsi pinMode() yang digunakan untuk mengatur mode pin motorPin menjadi OUTPUT. Dalam hal ini, pin tersebut akan digunakan untuk mengontrol motor DC.
+
+data = analogRead(SensorPin);: Ini adalah pemanggilan fungsi analogRead() yang digunakan untuk membaca nilai analog dari pin SensorPin yang terhubung dengan sensor kelembapan. Nilai yang dibaca akan disimpan dalam variabel data.
+
+float Kelembaban = analogRead(SensorPin) * 0.0981354269;: Ini adalah deklarasi variabel Kelembaban dengan tipe data float. Nilai kelembaban dihitung dengan mengalikan pembacaan sensor yang dikalibrasi dengan faktor konversi. Konstanta 0.0981354269 digunakan untuk mengubah nilai pembacaan analog menjadi persentase kelembaban.
+
+lcd.setCursor(13, 2);: Ini adalah pemanggilan metode setCursor() pada objek lcd. Metode ini digunakan untuk mengatur posisi kursor di LCD sebelum menampilkan nilai kelembaban.
+
+lcd.print(Kelembaban);: Ini adalah pemanggilan metode print() pada objek lcd. Metode ini digunakan untuk menampilkan nilai kelembaban yang tersimpan dalam variabel Kelembaban di posisi kursor saat ini di LCD.
+
+lcd.print("%");: Ini adalah pemanggilan metode print() pada objek lcd. Metode ini digunakan untuk menampilkan karakter '%' setelah nilai kelembaban di LCD.
+
+if (Kelembaban < 30) { ... } else { ... }: Ini adalah struktur kondisional if-else. Jika nilai kelembaban (Kelembaban) kurang dari 30, maka blok kode dalam if akan dieksekusi (menghidupkan fan dan motor), jika tidak, blok kode dalam else akan dieksekusi (mematikan fan dan motor).
+
+digitalWrite(fanPin, HIGH);: Ini adalah pemanggilan fungsi digitalWrite() yang digunakan untuk mengatur status pin fanPin menjadi HIGH. Dalam hal ini, pin tersebut akan digunakan untuk menghidupkan fan DC.
+
+digitalWrite(motorPin, HIGH);: Ini adalah pemanggilan fungsi digitalWrite() yang digunakan untuk mengatur status pin motorPin menjadi HIGH. Dalam hal ini, pin tersebut akan digunakan untuk menghidupkan motor DC.
+
+digitalWrite(fanPin, LOW);: Ini adalah pemanggilan fungsi digitalWrite() yang digunakan untuk mengatur status pin fanPin menjadi LOW. Dalam hal ini, pin tersebut akan digunakan untuk mematikan fan DC.
+
+digitalWrite(motorPin, LOW);: Ini adalah pemanggilan fungsi digitalWrite() yang digunakan untuk mengatur status pin motorPin menjadi LOW. Dalam hal ini, pin tersebut akan digunakan untuk mematikan motor DC.
+
+delay(200);: Ini adalah fungsi delay() yang digunakan untuk memberikan jeda selama 200 milidetik sebelum mengulangi loop() selanjutnya. Fungsi ini membantu mengontrol kecepatan pemrosesan program.
